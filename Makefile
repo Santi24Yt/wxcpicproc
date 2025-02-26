@@ -10,7 +10,7 @@ INCLUDES = -I./libs/
 LIBS =
 
 # Max depth 3
-SOURCES = $(wildcard */*.cpp */*/*.cpp */*/*/*.cpp)
+SOURCES = $(filter-out $(wildcard resources/*),$(wildcard */*.cpp */*/*.cpp */*/*/*.cpp))
 OBJECTS = $(SOURCES:.cpp=.o)
 
 OUT = wxcpicproc
