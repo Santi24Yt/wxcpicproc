@@ -1,7 +1,6 @@
 #include "MainWindow.h"
 #include "wx/app.h"
 #include "FilePickerDialog.h"
-#include <cstring>
 
 void MainWindow::ExitAll(wxCloseEvent& event)
 {

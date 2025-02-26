@@ -1,11 +1,11 @@
-WX_CONFIG 	= wx-config
+WX_CONFIG = wx-config
 WX_CXXFLAGS = $(shell $(WX_CONFIG) --cxxflags)
-WX_LIBS 		= $(shell $(WX_CONFIG) --libs)
+WX_LIBS = $(shell $(WX_CONFIG) --libs)
 
 CXX = g++
 CXXFLAGS = -xc++ -std=c++11
 DFLAGS = -Wall -Werror
- 
+
 INCLUDES = -I./libs/
 LIBS =
 
