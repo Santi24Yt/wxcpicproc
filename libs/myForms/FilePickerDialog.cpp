@@ -18,7 +18,7 @@ void FilePickerDialog::previewImage(wxFileDirPickerEvent& event)
     {
       cw = (int)(ch * aspect);
     } else {
-      ch = (int)(cw * aspect);
+      ch = (int)(cw * 1/aspect);
     }
 
     ImgPreview->SetBitmap(wxBitmap(img.Scale(cw, ch, wxIMAGE_QUALITY_NEAREST)));

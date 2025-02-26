@@ -27,7 +27,7 @@ void MainWindow::OpenFileDialog(wxCommandEvent& event)
         {
           cw1 = (int)(ch1 * aspect1);
         } else {
-          ch1 = (int)(cw1 * aspect1);
+          ch1 = (int)(cw1 * 1/aspect1);
         }
 
         OgImg->SetBitmap(wxBitmap(img.Scale(cw1, ch1, wxIMAGE_QUALITY_NEAREST)));
@@ -42,13 +42,14 @@ void MainWindow::OpenFileDialog(wxCommandEvent& event)
         {
           cw2 = (int)(ch2 * aspect2);
         } else {
-          ch2 = (int)(cw2 * aspect2);
+          ch2 = (int)(cw2 * 1/aspect2);
         }
 
         ModImg->SetBitmap(wxBitmap(img.Scale(cw2, ch2, wxIMAGE_QUALITY_NEAREST)));
 
         Layout();
 
+        imgdata = (unsigned char*)malloc(img.GetWidth() * img.GetHeight() * 3);
         memcpy(imgdata, img.GetData(), img.GetWidth() * img.GetHeight() * 3);
       }
     }
