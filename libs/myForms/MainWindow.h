@@ -11,7 +11,21 @@ class MainWindow : public MainWindowV
 
   void ExitAll(wxCloseEvent& event) override;
   void OpenFileDialog(wxCommandEvent& event) override;
+  void RmWaterBW( wxCommandEvent& event ) override;
+  void RmWaterR( wxCommandEvent& event ) override;
+  void RmWaterBWRec();
 
-  wxImage img;
-  unsigned char* imgdata;
+
+
+  bool imgloaded = false;
+  wxImage wxogimg;
+  int** img;
+  int w;
+  int h;
+  int loops = 0;
+
+  unsigned char* getData(int** img);
+  unsigned char* getAlpha(int** img);
+  void setImg(unsigned char* data, unsigned char* alpha = nullptr);
+  void reloadModImg();
 };

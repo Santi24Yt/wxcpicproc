@@ -27,6 +27,18 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 	MainMenubar->Append( FileMenu, wxT("File") );
 
 	FiltersMenu = new wxMenu();
+	WatermarksM = new wxMenu();
+	wxMenuItem* WatermarksMItem = new wxMenuItem( FiltersMenu, wxID_ANY, wxT("Remove Watermark"), wxEmptyString, wxITEM_NORMAL, WatermarksM );
+	wxMenuItem* WatermarkRB;
+	WatermarkRB = new wxMenuItem( WatermarksM, wxID_ANY, wxString( wxT("Red watermark (Bad)") ) , wxEmptyString, wxITEM_NORMAL );
+	WatermarksM->Append( WatermarkRB );
+
+	wxMenuItem* WatermarkBWM;
+	WatermarkBWM = new wxMenuItem( WatermarksM, wxID_ANY, wxString( wxT("B&W Image Color Watermark (Good)") ) , wxEmptyString, wxITEM_NORMAL );
+	WatermarksM->Append( WatermarkBWM );
+
+	FiltersMenu->Append( WatermarksMItem );
+
 	MainMenubar->Append( FiltersMenu, wxT("Filters") );
 
 	this->SetMenuBar( MainMenubar );
@@ -96,6 +108,8 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainWindowV::ExitAll ) );
 	FileMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::OpenFileDialog ), this, FileMenuOpen->GetId());
+	WatermarksM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::RmWaterR ), this, WatermarkRB->GetId());
+	WatermarksM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::RmWaterBW ), this, WatermarkBWM->GetId());
 }
 
 MainWindowV::~MainWindowV()

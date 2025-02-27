@@ -40,6 +40,7 @@ class MainWindowV : public wxFrame
 		wxMenuBar* MainMenubar;
 		wxMenu* FileMenu;
 		wxMenu* FiltersMenu;
+		wxMenu* WatermarksM;
 		wxStaticLine* m_staticline1;
 		wxPanel* LeftPanel;
 		wxStaticBitmap* OgImg;
@@ -49,6 +50,8 @@ class MainWindowV : public wxFrame
 		// Virtual event handlers, override them in your derived class
 		virtual void ExitAll( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OpenFileDialog( wxCommandEvent& event ) { event.Skip(); }
+		virtual void RmWaterR( wxCommandEvent& event ) { event.Skip(); }
+		virtual void RmWaterBW( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:

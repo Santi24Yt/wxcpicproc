@@ -3,6 +3,7 @@
 
 bool MyApp::OnInit()
 {
+  srand(time(0));
   wxInitAllImageHandlers();
 
   MainWindow* mainwin = new MainWindow(NULL);
