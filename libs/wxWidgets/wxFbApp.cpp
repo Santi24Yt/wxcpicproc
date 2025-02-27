@@ -108,6 +108,7 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainWindowV::ExitAll ) );
 	FileMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::OpenFileDialog ), this, FileMenuOpen->GetId());
+	FileMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::OpenSaveDialog ), this, FileMenuSave->GetId());
 	WatermarksM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::RmWaterR ), this, WatermarkRB->GetId());
 	WatermarksM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::RmWaterBW ), this, WatermarkBWM->GetId());
 }
@@ -159,5 +160,36 @@ FilePickerDialogV::FilePickerDialogV( wxWindow* parent, wxWindowID id, const wxS
 }
 
 FilePickerDialogV::~FilePickerDialogV()
+{
+}
+
+FileSaveDialogV::FileSaveDialogV( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxSize( -1,-1 ), wxSize( -1,-1 ) );
+
+	wxBoxSizer* HSizer;
+	HSizer = new wxBoxSizer( wxHORIZONTAL );
+
+	wxBoxSizer* VSizer;
+	VSizer = new wxBoxSizer( wxVERTICAL );
+
+	fileSaver = new wxFilePickerCtrl( this, wxID_ANY, wxEmptyString, wxT("Save file"), wxT("Images (*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.tiff;*.tif;*.webp;*.ico;*.xpm)|*.jpg;*.jpeg;*.png;*.gif;*.bmp;*.tiff;*.tif;*.webp;*.ico;*.xpm"), wxDefaultPosition, wxDefaultSize, wxFLP_OVERWRITE_PROMPT|wxFLP_SAVE|wxFLP_USE_TEXTCTRL );
+	VSizer->Add( fileSaver, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+
+
+	HSizer->Add( VSizer, 1, 0, 5 );
+
+
+	this->SetSizer( HSizer );
+	this->Layout();
+	HSizer->Fit( this );
+
+	this->Centre( wxBOTH );
+
+	// Connect Events
+	fileSaver->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( FileSaveDialogV::SaveFile ), NULL, this );
+}
+
+FileSaveDialogV::~FileSaveDialogV()
 {
 }

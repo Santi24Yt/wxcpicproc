@@ -11,6 +11,7 @@ class MainWindow : public MainWindowV
 
   void ExitAll(wxCloseEvent& event) override;
   void OpenFileDialog(wxCommandEvent& event) override;
+  void OpenSaveDialog( wxCommandEvent& event ) override;
   void RmWaterBW( wxCommandEvent& event ) override;
   void RmWaterR( wxCommandEvent& event ) override;
   void RmWaterBWRec();

@@ -50,6 +50,7 @@ class MainWindowV : public wxFrame
 		// Virtual event handlers, override them in your derived class
 		virtual void ExitAll( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OpenFileDialog( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OpenSaveDialog( wxCommandEvent& event ) { event.Skip(); }
 		virtual void RmWaterR( wxCommandEvent& event ) { event.Skip(); }
 		virtual void RmWaterBW( wxCommandEvent& event ) { event.Skip(); }
 
@@ -84,6 +85,28 @@ class FilePickerDialogV : public wxDialog
 		FilePickerDialogV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("File"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 600,120 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~FilePickerDialogV();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class FileSaveDialogV
+///////////////////////////////////////////////////////////////////////////////
+class FileSaveDialogV : public wxDialog
+{
+	private:
+
+	protected:
+		wxFilePickerCtrl* fileSaver;
+
+		// Virtual event handlers, override them in your derived class
+		virtual void SaveFile( wxFileDirPickerEvent& event ) { event.Skip(); }
+
+
+	public:
+
+		FileSaveDialogV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Save"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~FileSaveDialogV();
 
 };
 

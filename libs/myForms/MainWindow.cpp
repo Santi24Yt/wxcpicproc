@@ -1,6 +1,10 @@
 #include "MainWindow.h"
 #include "wx/app.h"
 #include "FilePickerDialog.h"
+#include "FileSaveDialog.h"
+#include "wx/image.h"
+#include "wx/msgdlg.h"
+#include "wx/string.h"
 #include <cmath>
 #include <cstdlib>
 #include <unordered_map>
@@ -51,6 +55,22 @@ void MainWindow::OpenFileDialog(wxCommandEvent& event)
 
         imgloaded = true;
       }
+    }
+  }
+}
+
+void MainWindow::OpenSaveDialog( wxCommandEvent& event )
+{
+  FileSaveDialog* fsdiag = new FileSaveDialog(this);
+  if (fsdiag->ShowModal() == wxID_OK)
+  {
+    if (imgloaded)
+    {
+      wxString p = fsdiag->path;
+      wxImage tmpImg = wxImage(w, h, getData(img), getAlpha(img));
+      bool r = tmpImg.SaveFile(p);
+      if (!r)
+        wxMessageBox("Failed to save image!", "Error", wxOK | wxICON_ERROR);
     }
   }
 }
