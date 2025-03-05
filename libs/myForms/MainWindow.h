@@ -1,6 +1,7 @@
 #pragma once
 
 #include "wxWidgets/wxFbApp.h"
+#include "image/image.h"
 
 class MainWindow : public MainWindowV
 {
@@ -13,20 +14,11 @@ class MainWindow : public MainWindowV
   void OpenFileDialog(wxCommandEvent& event) override;
   void OpenSaveDialog( wxCommandEvent& event ) override;
   void RmWaterBW( wxCommandEvent& event ) override;
-  void RmWaterR( wxCommandEvent& event ) override;
-  void RmWaterBWRec();
-
-
+  // void RmWaterR( wxCommandEvent& event ) override;
 
   bool imgloaded = false;
   wxImage wxogimg;
-  int** img;
-  int w;
-  int h;
-  int loops = 0;
+  Image img;
 
-  unsigned char* getData(int** img);
-  unsigned char* getAlpha(int** img);
-  void setImg(unsigned char* data, unsigned char* alpha = nullptr);
   void reloadModImg();
 };
