@@ -90,6 +90,8 @@ void MainWindow::reloadModImg()
 
 void MainWindow::RmWaterBW( wxCommandEvent& event )
 {
+  if (!imgloaded) return;
+
   img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
 
   img.rmwatermarkpostcard();

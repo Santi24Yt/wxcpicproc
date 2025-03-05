@@ -1,4 +1,5 @@
 **.o
 **.fbp
 wxcpicproc
+wxcpicproc-static
 out/
