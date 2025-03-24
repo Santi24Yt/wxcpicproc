@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "myForms/OneValuePickerSlider.h"
 #include "wx/app.h"
 #include "FilePickerDialog.h"
 #include "FileSaveDialog.h"
@@ -178,6 +179,22 @@ void MainWindow::GrayscalePerceptual( wxCommandEvent& event )
   img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
   
   img.grayscaleperceptual();
+
+  reloadModImg();
+}
+
+void MainWindow::Mosaic( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
+
+  OneValuePickerSlider* valuepicker = new OneValuePickerSlider("Mosaic Size", 2, std::max(img.h, img.w), 2);
+
+  if (valuepicker->ShowModal() == wxID_OK)
+  {
+    img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
+    
+    img.mosaic(valuepicker->value);
+  }
 
   reloadModImg();
 }

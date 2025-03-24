@@ -75,6 +75,10 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 
 	FiltersMenu->Append( GrayscaleMItem );
 
+	wxMenuItem* MosaicM;
+	MosaicM = new wxMenuItem( FiltersMenu, wxID_ANY, wxString( wxT("Mosaic") ) , wxEmptyString, wxITEM_NORMAL );
+	FiltersMenu->Append( MosaicM );
+
 	MainMenubar->Append( FiltersMenu, wxT("Filters") );
 
 	this->SetMenuBar( MainMenubar );
@@ -154,6 +158,7 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 	ChannelsM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::ChannelRGBA ), this, ChannelRGBA->GetId());
 	GrayscaleM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::GrayscaleAverage ), this, GrayscaleAvg->GetId());
 	GrayscaleM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::GrayscalePerceptual ), this, GrayscalePercep->GetId());
+	FiltersMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::Mosaic ), this, MosaicM->GetId());
 }
 
 MainWindowV::~MainWindowV()
@@ -269,5 +274,47 @@ RGBPickerDialogV::RGBPickerDialogV( wxWindow* parent, wxWindowID id, const wxStr
 }
 
 RGBPickerDialogV::~RGBPickerDialogV()
+{
+}
+
+OneValuePickerSliderV::OneValuePickerSliderV( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* HSizer;
+	HSizer = new wxBoxSizer( wxHORIZONTAL );
+
+	wxBoxSizer* VSizer;
+	VSizer = new wxBoxSizer( wxVERTICAL );
+
+	ValueLabel = new wxStaticText( this, wxID_ANY, wxT("Value"), wxDefaultPosition, wxDefaultSize, 0 );
+	ValueLabel->Wrap( -1 );
+	VSizer->Add( ValueLabel, 0, wxALL, 5 );
+
+	ValueSlider = new wxSlider( this, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxSize( 175,75 ), wxSL_HORIZONTAL|wxSL_LABELS );
+	VSizer->Add( ValueSlider, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+
+	ValueInput = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	VSizer->Add( ValueInput, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+
+	SelectB = new wxButton( this, wxID_ANY, wxT("Ok"), wxDefaultPosition, wxDefaultSize, 0 );
+	VSizer->Add( SelectB, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+
+
+	HSizer->Add( VSizer, 1, wxALIGN_CENTER_VERTICAL, 5 );
+
+
+	this->SetSizer( HSizer );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+
+	// Connect Events
+	ValueSlider->Connect( wxEVT_SLIDER, wxCommandEventHandler( OneValuePickerSliderV::ValueUpdateTxt ), NULL, this );
+	ValueInput->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( OneValuePickerSliderV::ValueUpdateSlider ), NULL, this );
+	SelectB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( OneValuePickerSliderV::SelectValue ), NULL, this );
+}
+
+OneValuePickerSliderV::~OneValuePickerSliderV()
 {
 }

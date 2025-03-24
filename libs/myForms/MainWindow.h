@@ -22,6 +22,7 @@ class MainWindow : public MainWindowV
   void ChannelRGBA( wxCommandEvent& event ) override;
   void GrayscaleAverage( wxCommandEvent& event ) override;
   void GrayscalePerceptual( wxCommandEvent& event ) override;
+  void Mosaic( wxCommandEvent& event ) override;
 
   bool imgloaded = false;
   wxImage wxogimg;

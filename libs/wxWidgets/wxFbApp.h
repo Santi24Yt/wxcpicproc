@@ -28,6 +28,8 @@
 #include <wx/dialog.h>
 #include <wx/stattext.h>
 #include <wx/clrpicker.h>
+#include <wx/slider.h>
+#include <wx/textctrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -64,6 +66,7 @@ class MainWindowV : public wxFrame
 		virtual void ChannelRGBA( wxCommandEvent& event ) { event.Skip(); }
 		virtual void GrayscaleAverage( wxCommandEvent& event ) { event.Skip(); }
 		virtual void GrayscalePerceptual( wxCommandEvent& event ) { event.Skip(); }
+		virtual void Mosaic( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:
@@ -141,6 +144,33 @@ class RGBPickerDialogV : public wxDialog
 		RGBPickerDialogV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("RGB"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
 
 		~RGBPickerDialogV();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class OneValuePickerSliderV
+///////////////////////////////////////////////////////////////////////////////
+class OneValuePickerSliderV : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* ValueLabel;
+		wxSlider* ValueSlider;
+		wxTextCtrl* ValueInput;
+		wxButton* SelectB;
+
+		// Virtual event handlers, override them in your derived class
+		virtual void ValueUpdateTxt( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ValueUpdateSlider( wxCommandEvent& event ) { event.Skip(); }
+		virtual void SelectValue( wxCommandEvent& event ) { event.Skip(); }
+
+
+	public:
+
+		OneValuePickerSliderV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Value"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 250,275 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~OneValuePickerSliderV();
 
 };
 

@@ -98,4 +98,7 @@ class Image
   Image grayscaleaveragec();
   void grayscaleperceptual();
   Image grayscaleperceptualc();
+
+  void mosaic(int size);
+  Image mosaicc(int size);
 };

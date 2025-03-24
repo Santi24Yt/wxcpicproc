@@ -127,3 +127,57 @@ Image Image::grayscaleperceptualc()
   ni.grayscaleperceptual();
   return ni;
 }
+
+void Image::mosaic(int size)
+{
+  for (int xm = 0; xm < w; xm += size)
+  {
+    for (int ym = 0; ym < h; ym += size)
+    {
+      long long sr = 0;
+      int nr = 0;
+      long long sg = 0;
+      int ng = 0;
+      long long sb = 0;
+      int nb = 0;
+      bool empty = true;
+
+      for (int x = xm; x < std::min(xm+size, w); x++)
+      {
+        for (int y = ym; y < std::min(ym+size, h); y++)
+        {
+          if (A(gpx(x, y)) != 0)
+          {
+            empty = false;
+            sr += R(gpx(x, y));
+            nr++;
+            sg += G(gpx(x,y));
+            ng++;
+            sb += B(gpx(x,y));
+            nb++;
+          }
+        }
+      }
+
+      if (empty) continue;
+
+      byte r = (byte)std::min((long long)255, sr/nr);
+      byte g = (byte)std::min((long long)255, sg/ng);
+      byte b = (byte)std::min((long long)255, sb/nb);
+      for (int x = xm; x < xm+size; x++)
+      {
+        for (int y = ym; y < ym+size; y++)
+        {
+          spx(x, y, r, g, b);
+        }
+      }
+    }
+  }
+}
+
+Image Image::mosaicc(int size)
+{
+  Image ni = Image(*this);
+  ni.mosaic(size);
+  return ni;
+}
