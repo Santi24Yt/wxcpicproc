@@ -39,6 +39,42 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 
 	FiltersMenu->Append( WatermarksMItem );
 
+	ChannelsM = new wxMenu();
+	wxMenuItem* ChannelsMItem = new wxMenuItem( FiltersMenu, wxID_ANY, wxT("Channels"), wxEmptyString, wxITEM_NORMAL, ChannelsM );
+	wxMenuItem* ChannelR;
+	ChannelR = new wxMenuItem( ChannelsM, wxID_ANY, wxString( wxT("Red") ) , wxEmptyString, wxITEM_NORMAL );
+	ChannelsM->Append( ChannelR );
+
+	wxMenuItem* ChannelG;
+	ChannelG = new wxMenuItem( ChannelsM, wxID_ANY, wxString( wxT("Green") ) , wxEmptyString, wxITEM_NORMAL );
+	ChannelsM->Append( ChannelG );
+
+	wxMenuItem* ChannelB;
+	ChannelB = new wxMenuItem( ChannelsM, wxID_ANY, wxString( wxT("Blue") ) , wxEmptyString, wxITEM_NORMAL );
+	ChannelsM->Append( ChannelB );
+
+	wxMenuItem* ChannelA;
+	ChannelA = new wxMenuItem( ChannelsM, wxID_ANY, wxString( wxT("Alpha") ) , wxEmptyString, wxITEM_NORMAL );
+	ChannelsM->Append( ChannelA );
+
+	wxMenuItem* ChannelRGBA;
+	ChannelRGBA = new wxMenuItem( ChannelsM, wxID_ANY, wxString( wxT("RGB") ) , wxEmptyString, wxITEM_NORMAL );
+	ChannelsM->Append( ChannelRGBA );
+
+	FiltersMenu->Append( ChannelsMItem );
+
+	GrayscaleM = new wxMenu();
+	wxMenuItem* GrayscaleMItem = new wxMenuItem( FiltersMenu, wxID_ANY, wxT("Grayscale"), wxEmptyString, wxITEM_NORMAL, GrayscaleM );
+	wxMenuItem* GrayscaleAvg;
+	GrayscaleAvg = new wxMenuItem( GrayscaleM, wxID_ANY, wxString( wxT("Average") ) , wxEmptyString, wxITEM_NORMAL );
+	GrayscaleM->Append( GrayscaleAvg );
+
+	wxMenuItem* GrayscalePercep;
+	GrayscalePercep = new wxMenuItem( GrayscaleM, wxID_ANY, wxString( wxT("Perceptual") ) , wxEmptyString, wxITEM_NORMAL );
+	GrayscaleM->Append( GrayscalePercep );
+
+	FiltersMenu->Append( GrayscaleMItem );
+
 	MainMenubar->Append( FiltersMenu, wxT("Filters") );
 
 	this->SetMenuBar( MainMenubar );
@@ -111,6 +147,13 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 	FileMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::OpenSaveDialog ), this, FileMenuSave->GetId());
 	WatermarksM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::RmWaterR ), this, WatermarkRB->GetId());
 	WatermarksM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::RmWaterBW ), this, WatermarkBWM->GetId());
+	ChannelsM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::ChannelR ), this, ChannelR->GetId());
+	ChannelsM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::ChannelG ), this, ChannelG->GetId());
+	ChannelsM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::ChannelB ), this, ChannelB->GetId());
+	ChannelsM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::ChannelA ), this, ChannelA->GetId());
+	ChannelsM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::ChannelRGBA ), this, ChannelRGBA->GetId());
+	GrayscaleM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::GrayscaleAverage ), this, GrayscaleAvg->GetId());
+	GrayscaleM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::GrayscalePerceptual ), this, GrayscalePercep->GetId());
 }
 
 MainWindowV::~MainWindowV()
@@ -191,5 +234,40 @@ FileSaveDialogV::FileSaveDialogV( wxWindow* parent, wxWindowID id, const wxStrin
 }
 
 FileSaveDialogV::~FileSaveDialogV()
+{
+}
+
+RGBPickerDialogV::RGBPickerDialogV( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* HSizer;
+	HSizer = new wxBoxSizer( wxHORIZONTAL );
+
+	wxBoxSizer* VSizer;
+	VSizer = new wxBoxSizer( wxVERTICAL );
+
+	RBGPickerLabel = new wxStaticText( this, wxID_ANY, wxT("RGB Color"), wxDefaultPosition, wxDefaultSize, 0 );
+	RBGPickerLabel->Wrap( -1 );
+	VSizer->Add( RBGPickerLabel, 0, wxALL, 5 );
+
+	RGBPickerDialogControl = new wxColourPickerCtrl( this, wxID_ANY, wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ), wxDefaultPosition, wxSize( -1,-1 ), wxCLRP_SHOW_LABEL );
+	VSizer->Add( RGBPickerDialogControl, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+
+
+	HSizer->Add( VSizer, 1, 0, 5 );
+
+
+	this->SetSizer( HSizer );
+	this->Layout();
+	HSizer->Fit( this );
+
+	this->Centre( wxBOTH );
+
+	// Connect Events
+	RGBPickerDialogControl->Connect( wxEVT_COMMAND_COLOURPICKER_CHANGED, wxColourPickerEventHandler( RGBPickerDialogV::RGBPickerSelected ), NULL, this );
+}
+
+RGBPickerDialogV::~RGBPickerDialogV()
 {
 }

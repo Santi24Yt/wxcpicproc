@@ -26,6 +26,8 @@
 #include <wx/filepicker.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
+#include <wx/stattext.h>
+#include <wx/clrpicker.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -41,6 +43,8 @@ class MainWindowV : public wxFrame
 		wxMenu* FileMenu;
 		wxMenu* FiltersMenu;
 		wxMenu* WatermarksM;
+		wxMenu* ChannelsM;
+		wxMenu* GrayscaleM;
 		wxStaticLine* m_staticline1;
 		wxPanel* LeftPanel;
 		wxStaticBitmap* OgImg;
@@ -53,6 +57,13 @@ class MainWindowV : public wxFrame
 		virtual void OpenSaveDialog( wxCommandEvent& event ) { event.Skip(); }
 		virtual void RmWaterR( wxCommandEvent& event ) { event.Skip(); }
 		virtual void RmWaterBW( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChannelR( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChannelG( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChannelB( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChannelA( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChannelRGBA( wxCommandEvent& event ) { event.Skip(); }
+		virtual void GrayscaleAverage( wxCommandEvent& event ) { event.Skip(); }
+		virtual void GrayscalePerceptual( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:
@@ -107,6 +118,29 @@ class FileSaveDialogV : public wxDialog
 		FileSaveDialogV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Save"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~FileSaveDialogV();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class RGBPickerDialogV
+///////////////////////////////////////////////////////////////////////////////
+class RGBPickerDialogV : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* RBGPickerLabel;
+		wxColourPickerCtrl* RGBPickerDialogControl;
+
+		// Virtual event handlers, override them in your derived class
+		virtual void RGBPickerSelected( wxColourPickerEvent& event ) { event.Skip(); }
+
+
+	public:
+
+		RGBPickerDialogV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("RGB"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
+		~RGBPickerDialogV();
 
 };
 

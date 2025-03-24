@@ -34,7 +34,7 @@ void Image::rmwatermarkpostcard()
               byte ng = G(n);
               if (nr - ng < 8)
               {
-                int ngr = (int)perceptualgray(n);
+                int ngr = (int)grayperceptual(n);
                 if (ngr > 250)
                   ngr = 255;
                 grays[ngr]++;
@@ -85,7 +85,7 @@ void Image::rmwatermarkpostcard()
 
       if (r - g >= 8)
       {
-        byte gray = C(perceptualgray(px) * m);
+        byte gray = C(grayperceptual(px) * m);
         byte bc = gray;
         if (bc < 240)
           bc = std::max(0, gray-9);

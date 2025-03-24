@@ -68,12 +68,34 @@ class Image
   byte* data();
   byte* alpha();
 
-  static byte perceptualgray(pixel px)
+  static byte grayperceptual(pixel px)
   {
     int g = (0.299 * R(px) + 0.587 * G(px) + 0.114 * B(px));
     return (byte)std::min(255, g);
   }
 
+  static byte grayaverage(pixel px)
+  {
+    int g = (R(px) + G(px) + B(px))/3;
+    return (byte)std::min(255, g);
+  }
+
   void rmwatermarkpostcard();
   Image rmwatermarkpostcardc();
+
+  void channelred();
+  Image channelredc();
+  void channelgreen();
+  Image channelgreenc();
+  void channelblue();
+  Image channelbluec();
+  void channelalpha();
+  Image channelalphac();
+  void channelrgba(uint32_t c);
+  Image channelrgbac(uint32_t c);
+
+  void grayscaleaverage();
+  Image grayscaleaveragec();
+  void grayscaleperceptual();
+  Image grayscaleperceptualc();
 };

@@ -2,6 +2,7 @@
 #include "wx/app.h"
 #include "FilePickerDialog.h"
 #include "FileSaveDialog.h"
+#include "RGBPickerDialog.h"
 #include "wx/image.h"
 #include "wx/msgdlg.h"
 #include "wx/string.h"
@@ -99,362 +100,84 @@ void MainWindow::RmWaterBW( wxCommandEvent& event )
   reloadModImg();
 }
 
-// void MainWindow::RmWaterR( wxCommandEvent& event )
-// {
-//   setImg(wxogimg.GetData(), wxogimg.GetAlpha());
+void MainWindow::ChannelR( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
 
-//   int nwm = 0;
-//   double rav = 0.0;
-//   double gav = 0.0;
-//   double bav = 0.0;
+  img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
 
-//   for (int x = 0; x < w; x++)
-//   {
-//     for (int y = 0; y < h; y++)
-//     {
-//       unsigned char r = (img[y][x] >> 24) & 0xFF;
-//       unsigned char g = (img[y][x] >> 16) & 0xFF;
-//       unsigned char b = (img[y][x] >> 8) & 0xFF;
+  img.channelred();
 
-//       if (std::abs(r-g) > 10)
-//       {
-//         nwm++;
-//         rav += r;
-//         gav += g;
-//         bav += b;
-//         // img[y][x] = 0x0000FFFF;
-//       }
-//     }
-//   }
+  reloadModImg();
+}
 
-//   if (nwm == 0)
-//     return;
+void MainWindow::ChannelG( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
 
-//   rav = rav/nwm;
-//   gav = gav/nwm;
-//   bav = bav/nwm;
+  img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
 
-//   unsigned char ravc = (unsigned char)rav;
-//   unsigned char gavc = (unsigned char)gav;
-//   unsigned char bavc = (unsigned char)bav;
+  img.channelgreen();
 
-//   for (int x = 0; x < w; x++)
-//   {
-//     for (int y = 0; y < h; y++)
-//     {
-//       unsigned char a = (img[y][x] >> 0) & 0xFF;
-//       img[y][x] &= (ravc << 24) | (gavc << 16) | (bavc << 8) | a;
-//     }
-//   }
+  reloadModImg();
+}
 
-//   reloadModImg();
-// }
+void MainWindow::ChannelB( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
 
-// void MainWindow::RmWaterBW( wxCommandEvent& event )
-// {
-//   setImg(wxogimg.GetData(), wxogimg.GetAlpha());
+  img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
 
-//   // float m = 1.3475;
+  img.channelblue();
 
-//   // unsigned char rmax = 0;
-//   // unsigned char gmax = 0;
-//   // unsigned char bmax = 0;
+  reloadModImg();
+}
 
-//   // unsigned char rmin = 255;
-//   // unsigned char gmin = 255;
-//   // unsigned char bmin = 255;
+void MainWindow::ChannelA( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
 
-//   // for (int x = 0; x < w; x++)
-//   // {
-//   //   for (int y = 0; y < h; y++)
-//   //   {
-//   //     int px = img[y][x];
-//   //     unsigned char r = (px >> 24) & 0xFF;
-//   //     unsigned char g = (px >> 16) & 0xFF;
-//   //     unsigned char b = (px >> 8) & 0xFF;
+  img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
 
-//   //     if (r - g >= 10)
-//   //     {
-//   //       if (r > rmax)
-//   //         rmax = r;
-//   //       if (g > gmax)
-//   //         gmax = g;
-//   //       if (b > bmax)
-//   //         bmax = b;
+  img.channelalpha();
 
-//   //       if (r < rmin)
-//   //         rmin = r;
-//   //       if (g < gmin)
-//   //         gmin = g;
-//   //       if (b < bmin)
-//   //         bmin = b;
-//   //     }
-//   //   }
-//   // }
+  reloadModImg();
+}
 
-//   // std::cout << "rmin: " << (int)rmin << ", rmax: " << (int)rmax << std::endl;
-//   // std::cout << "gmin: " << (int)gmin << ", gmax: " << (int)gmax << std::endl;
-//   // std::cout << "bmin: " << (int)bmin << ", bmax: " << (int)bmax << std::endl;
+void MainWindow::ChannelRGBA( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
 
-//   // for (int x = 0; x < w; x++)
-//   // {
-//   //   for (int y = 0; y < h; y++)
-//   //   {
-//   //     int px = img[y][x];
-//   //     unsigned char r = (px >> 24) & 0xFF;
-//   //     unsigned char g = (px >> 16) & 0xFF;
-//   //     unsigned char b = (px >> 8) & 0xFF;
-//   //     unsigned char a = (px >> 0) & 0xFF;
+  RGBPickerDialog* rgbdiag = new RGBPickerDialog(NULL);
 
-//   //     if (r - g >= 10)
-//   //     {
-//   //       double bd = std::sqrt(std::pow(r-0x00,2) + std::pow(g-0x00,2) + std::pow(b-0x00,2));
-//   //       double wd = std::sqrt(std::pow(0xFF-r,2) + std::pow(0xFF-g,2) + std::pow(0xFF-b,2));
-//   //       if (bd < wd)
-//   //       {
-//   //         r = r - rmin;
-//   //         g = g - gmin;
-//   //         b = b - bmin;
-//   //       } else {
-//   //         r = r + (255 - rmax);
-//   //         g = g + (255 - gmax);
-//   //         b = b + (255 - bmax);
-//   //       }
+  if (rgbdiag->ShowModal() == wxID_OK)
+  {
+    img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
 
-//   //       int gr = (0.299 * r + 0.587 * g + 0.114 * b);
-//   //       img[y][x] = (gr << 24) | (gr << 16) | (gr << 8) | a;
-//   //     }
-//   //     int gr = (0.299 * r + 0.587 * g + 0.114 * b) * m;
-//   //     if (gr > 255)
-//   //     {
-//   //       gr = 255;
-//   //     }
-//   //     unsigned char pc = (unsigned char)gr;
-//   //     img[y][x] = (pc << 24) | (pc << 16) | (pc << 8) | a;
-//   //   }
-//   // }
+    img.channelrgba(rgbdiag->color);
+  }
 
-//   RmWaterBWRec();
+  reloadModImg();
+}
+
+void MainWindow::GrayscaleAverage( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
+
+  img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
   
-//   reloadModImg();
-// }
+  img.grayscaleaverage();
 
-// void MainWindow::RmWaterBWRec()
-// {
-//   int** imgCopy = (int**)malloc(h * sizeof(int*));
-//   for (int y = 0; y < h; y++)
-//   {
-//       imgCopy[y] = (int*)malloc(w * sizeof(int));
-//       memcpy(imgCopy[y], img[y], w * sizeof(int)); // Copy row data
-//   }
+  reloadModImg();
+}
 
-//   // bool rem = false;
-//   float m = 1.347;
+void MainWindow::GrayscalePerceptual( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
 
-//   for (int x = 0; x < w; x++)
-//   {
-//     for (int y = 0; y < h; y++)
-//     {
-//       int px = imgCopy[y][x];
-//       unsigned char r = (px >> 24) & 0xFF;
-//       unsigned char g = (px >> 16) & 0xFF;
-//       unsigned char b = (px >> 8) & 0xFF;
-//       unsigned char a = (px >> 0) & 0xFF;
-      
-//       int count = 0;
+  img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
+  
+  img.grayscaleperceptual();
 
-//       if (r - g >= 8)
-//       {
-//         // rem = true;
-//         int gr = (0.299 * r + 0.587 * g + 0.114 * b);
-
-//         std::unordered_map<int, int> grays;
-//         int maxgray = -1;
-
-//         for (int dy = -1; dy <= 1; dy++)
-//         {
-//           for (int dx = -1; dx <= 1; dx++)
-//           {
-//             int ny = y + dy;
-//             int nx = x + dx;
-//             if (nx >= 0 && nx < w && ny >= 0 && ny < h)
-//             {
-//               int neighbor = imgCopy[ny][nx];
-//               unsigned char nr = (neighbor >> 24) & 0xFF;
-//               unsigned char ng = (neighbor >> 16) & 0xFF;
-//               unsigned char nb = (neighbor >> 8) & 0xFF;
-//               if (nr - ng < 8)
-//               {
-//                 int ngr = (0.299 * nr + 0.587 * ng + 0.114 * nb);
-//                 // int ngr = ((nr+ng+nb)*m/3);
-//                 ngr = std::min(ngr, 255);
-//                 if (ngr > 250)
-//                   ngr = 255;
-//                 grays[ngr]++;
-//                 if (maxgray == -1)
-//                 {
-//                   maxgray = ngr;
-//                 }
-//                 if (grays[ngr] > grays[maxgray])
-//                 {
-//                   maxgray = ngr;
-//                 }
-//                 count++;
-//               }
-//             }
-//           }
-//         }
-
-//         if (gr > 255)
-//         {
-//           gr = 255;
-//         }
-//         unsigned char pc = (unsigned char)maxgray;
-
-//         // if (rand() % 100 < 50 && count > 0)
-//         // {
-//         //   int off = rand() % grays.size();
-//         //   auto it = grays.begin();
-//         //   for (int i = 0; i < off; i++)
-//         //   {
-//         //     it++;
-//         //   }
-//         //   int ng = it->first;
-//         //   pc = (unsigned char)ng;
-//         // }
-
-//         if (count > 0)
-//           img[y][x] = (pc << 24) | (pc << 16) | (pc << 8) | a;
-//       }
-//     }
-//   }
-
-//   for (int x = 0; x < w; x++)
-//   {
-//     for (int y = 0; y < h; y++)
-//     {
-//       int px = img[y][x];
-//       unsigned char r = (px >> 24) & 0xFF;
-//       unsigned char g = (px >> 16) & 0xFF;
-//       unsigned char b = (px >> 8) & 0xFF;
-//       unsigned char a = (px >> 0) & 0xFF;
-
-//       if (r - g >= 8)
-//       {
-//         int gr = (0.299 * r + 0.587 * g + 0.114 * b) * m;
-//         // int gr = ((r+g+b)*m/3);
-//         if (gr > 255)
-//         {
-//           gr = 255;
-//         }
-//         unsigned char pc = (unsigned char)gr;
-//         unsigned char bc = pc;
-//         if (bc < 240)
-//           bc = std::max(0, pc-9);
-//         img[y][x] = (pc << 24) | (pc << 16) | (bc << 8) | a;
-//       }
-
-//     }
-//   }
-
-//   for (int y = 0; y < h; y++)
-//   {
-//       free(imgCopy[y]);
-//   }
-//   free(imgCopy);
-
-//   // if (rem && loops < 100)
-//   // {
-//   //   loops++;
-//   //   RmWaterBWRec();
-//   // }
-//   // loops = 0;
-// }
-
-// // void MainWindow::RmWaterBWRec()
-// // {
-// //   int** imgCopy = (int**)malloc(h * sizeof(int*));
-// //   for (int y = 0; y < h; y++) {
-// //       imgCopy[y] = (int*)malloc(w * sizeof(int));
-// //       memcpy(imgCopy[y], img[y], w * sizeof(int));
-// //   }
-
-// //   bool rem = false;
-
-// //   for (int x = 0; x < w; x++)
-// //   {
-// //     for (int y = 0; y < h; y++)
-// //     {
-// //       int px = imgCopy[y][x];
-// //       unsigned char r = (px >> 24) & 0xFF;
-// //       unsigned char g = (px >> 16) & 0xFF;
-// //       unsigned char b = (px >> 8) & 0xFF;
-// //       unsigned char a = (px >> 0) & 0xFF;
-// //       int drg = r - g;
-// //       // float m = 1.3475;
-// //       if (drg >= 6)
-// //       {
-// //         rem = true;
-// //         int gray = static_cast<int>(0.299 * r + 0.587 * g + 0.114 * b);
-// //         int colorDeviation = std::abs(r - gray) + std::abs(g - gray) + std::abs(b - gray);
-
-// //         if (colorDeviation > 8) {
-// //             int sumGray = 0, count = 0;
-
-// //             for (int dy = -1; dy <= 1; dy++) {
-// //                 for (int dx = -1; dx <= 1; dx++) {
-// //                     int ny = y + dy, nx = x + dx;
-// //                     if (nx >= 0 && nx < w && ny >= 0 && ny < h) {
-// //                         int neighbor = imgCopy[ny][nx];
-// //                         unsigned char nr = (neighbor >> 24) & 0xFF;
-// //                         unsigned char ng = (neighbor >> 16) & 0xFF;
-// //                         unsigned char nb = (neighbor >> 8) & 0xFF;
-
-// //                         int nGray = static_cast<int>(0.299 * nr + 0.587 * ng + 0.114 * nb);
-// //                         int nDeviation = std::abs(nr - nGray) + std::abs(ng - nGray) + std::abs(nb - nGray);
-
-// //                         if (nDeviation < 20) {
-// //                             sumGray += nGray;
-// //                             count++;
-// //                         }
-// //                     }
-// //                 }
-// //             }
-
-// //             if (count > 0) {
-// //                 int avgGray = std::min(sumGray / count, 255);
-// //                 if (avgGray > 240)
-// //                 {
-// //                   avgGray = 255;
-// //                 }
-// //                 img[y][x] = (avgGray << 24) | (avgGray << 16) | (avgGray << 8) | a;
-// //             } else {
-// //                 // gray *= m;
-// //                 // gray = std::min(gray, 255);
-// //                 // img[y][x] = (gray << 24) | (gray << 16) | (gray << 8) | a;
-// //             }
-// //           }
-
-// //         // int gr = (0.299 * r + 0.587 * g + 0.114 * b) * m;
-// //         // if (gr > 255)
-// //         // {
-// //         //   gr = 255;
-// //         // }
-// //         // unsigned char pc = (unsigned char)gr;
-// //         // img[y][x] = (pc << 24) | (pc << 16) | (pc << 8) | a;
-// //       }
-// //     }
-// //   }
-
-// //   for (int y = 0; y < h; y++) {
-// //       free(imgCopy[y]);
-// //   }
-// //   free(imgCopy);
-
-// //   if (rem && loops < 100)
-// //   {
-// //     loops++;
-// //     RmWaterBWRec();
-// //   }
-// //   loops = 0;
-// // }
+  reloadModImg();
+}

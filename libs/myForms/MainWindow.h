@@ -15,6 +15,13 @@ class MainWindow : public MainWindowV
   void OpenSaveDialog( wxCommandEvent& event ) override;
   void RmWaterBW( wxCommandEvent& event ) override;
   // void RmWaterR( wxCommandEvent& event ) override;
+  void ChannelR( wxCommandEvent& event ) override;
+  void ChannelG( wxCommandEvent& event ) override;
+  void ChannelB( wxCommandEvent& event ) override;
+  void ChannelA( wxCommandEvent& event ) override;
+  void ChannelRGBA( wxCommandEvent& event ) override;
+  void GrayscaleAverage( wxCommandEvent& event ) override;
+  void GrayscalePerceptual( wxCommandEvent& event ) override;
 
   bool imgloaded = false;
   wxImage wxogimg;
