@@ -85,7 +85,7 @@ void Image::rmwatermarkpostcard()
 
       if (r - g >= 8)
       {
-        byte gray = C(grayperceptual(px) * m);
+        byte gray = T(grayperceptual(px) * m);
         byte bc = gray;
         if (bc < 240)
           bc = std::max(0, gray-9);

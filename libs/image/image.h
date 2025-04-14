@@ -60,7 +60,7 @@ class Image
   {
     return p & 0xFF;
   }
-  static byte C(int c)
+  static byte T(int c)
   {
     return std::min(std::max(0, c), 255);
   }

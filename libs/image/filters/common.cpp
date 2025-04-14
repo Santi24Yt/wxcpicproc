@@ -6,7 +6,8 @@ void  Image::channelred()
   {
     for (int y = 0; y < h; y++)
     {
-      spx(x, y, R(gpx(x, y)), 0, 0, A(gpx(x, y)));
+      pixel px = gpx(x, y) ;
+      spx(x, y, R(px), 0, 0, A(px));
     }
   }
 }
@@ -24,7 +25,8 @@ void  Image::channelgreen()
   {
     for (int y = 0; y < h; y++)
     {
-      spx(x, y, 0, G(gpx(x, y)), 0, A(gpx(x, y)));
+      pixel px = gpx(x, y);
+      spx(x, y, 0, G(px), 0, A(px));
     }
   }
 }
@@ -42,7 +44,8 @@ void  Image::channelblue()
   {
     for (int y = 0; y < h; y++)
     {
-      spx(x, y, 0, 0, B(gpx(x, y)), A(gpx(x, y)));
+      pixel px = gpx(x, y);
+      spx(x, y, 0, 0, B(px), A(px));
     }
   }
 }
@@ -60,7 +63,8 @@ void  Image::channelalpha()
   {
     for (int y = 0; y < h; y++)
     {
-      spx(x, y, A(gpx(x, y)));
+      pixel px = gpx(x, y);
+      spx(x, y, A(px));
     }
   }
 }
@@ -78,7 +82,8 @@ void Image::channelrgba(uint32_t c)
   {
     for (int y = 0; y < h; y++)
     {
-      spx(x, y, gpx(x,y) & c);
+      pixel px = gpx(x, y);
+      spx(x, y, px & c);
     }
   }
 }
@@ -96,8 +101,9 @@ void Image::grayscaleaverage()
   {
     for (int y = 0; y < h; y++)
     {
-      byte g = grayaverage(gpx(x, y));
-      spx(x, y, g, g, g, A(gpx(x, y)));
+      pixel px = gpx(x, y);
+      byte g = grayaverage(px);
+      spx(x, y, g, g, g, A(px));
     }
   }
 }
@@ -115,8 +121,9 @@ void Image::grayscaleperceptual()
   {
     for (int y = 0; y < h; y++)
     {
-      byte g = grayperceptual(gpx(x, y));
-      spx(x, y, g, g, g, A(gpx(x, y)));
+      pixel px = gpx(x, y);
+      byte g = grayperceptual(px);
+      spx(x, y, g, g, g, A(px));
     }
   }
 }
@@ -146,14 +153,15 @@ void Image::mosaic(int size)
       {
         for (int y = ym; y < std::min(ym+size, h); y++)
         {
-          if (A(gpx(x, y)) != 0)
+          pixel px = gpx(x, y);
+          if (A(px) != 0)
           {
             empty = false;
-            sr += R(gpx(x, y));
+            sr += R(px);
             nr++;
-            sg += G(gpx(x,y));
+            sg += G(px);
             ng++;
-            sb += B(gpx(x,y));
+            sb += B(px);
             nb++;
           }
         }
@@ -196,12 +204,13 @@ void Image::threshold(int th, bool inv)
   {
     for (int y = 0; y < h; y++)
     {
-      byte g = grayaverage(gpx(x, y));
+      pixel px = gpx(x, y);
+      byte g = grayaverage(px);
       if (g >= th)
       {
-        spx(x, y, c1, c1, c1, A(gpx(x, y)));
+        spx(x, y, c1, c1, c1, A(px));
       } else {
-        spx(x, y, c2, c2, c2, A(gpx(x, y)));
+        spx(x, y, c2, c2, c2, A(px));
       }
     }
   }
@@ -220,11 +229,13 @@ void Image::brightness(int br)
   {
     for (int y = 0; y < h; y++)
     {
-      byte r = (byte)std::max(0, std::min(255, R(gpx(x,y)) + br));
-      byte g = (byte)std::max(0, std::min(255, G(gpx(x,y)) + br));
-      byte b = (byte)std::max(0, std::min(255, B(gpx(x,y)) + br));
+      pixel px = gpx(x, y);
 
-      spx(x, y, r, g, b, A(gpx(x, y)));
+      byte r = T(R(px) + br);
+      byte g = T(G(px) + br);
+      byte b = T(B(px) + br);
+
+      spx(x, y, r, g, b, A(px));
     }
   }
 }
