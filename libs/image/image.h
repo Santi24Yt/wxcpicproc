@@ -101,4 +101,10 @@ class Image
 
   void mosaic(int size);
   Image mosaicc(int size);
+
+  void threshold(int th, bool inv = false);
+  Image thresholdc(int th, bool inv = false);
+
+  void brightness(int br);
+  Image brightnessc(int br);
 };

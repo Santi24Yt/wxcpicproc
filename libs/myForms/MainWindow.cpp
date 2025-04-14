@@ -198,3 +198,53 @@ void MainWindow::Mosaic( wxCommandEvent& event )
 
   reloadModImg();
 }
+
+void MainWindow::Threshold( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
+
+  OneValuePickerSlider* valuepicker = new OneValuePickerSlider("Threshold", 0, 255, 128);
+
+  if (valuepicker->ShowModal() == wxID_OK)
+  {
+    img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
+    
+    img.threshold(valuepicker->value);
+  }
+
+  reloadModImg();
+}
+
+void MainWindow::HighContrast( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
+
+  img.threshold(128);
+
+  reloadModImg();
+}
+
+void MainWindow::Negative( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
+  
+  img.threshold(128, true);
+
+  reloadModImg();
+}
+
+void MainWindow::Brightness( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
+
+  OneValuePickerSlider* valuepicker = new OneValuePickerSlider("Brightness", -255, 255, 0);
+
+  if (valuepicker->ShowModal() == wxID_OK)
+  {
+    img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
+    
+    img.brightness(valuepicker->value);
+  }
+
+  reloadModImg();
+}

@@ -23,6 +23,10 @@ class MainWindow : public MainWindowV
   void GrayscaleAverage( wxCommandEvent& event ) override;
   void GrayscalePerceptual( wxCommandEvent& event ) override;
   void Mosaic( wxCommandEvent& event ) override;
+  void Threshold( wxCommandEvent& event ) override;
+  void HighContrast( wxCommandEvent& event ) override;
+  void Negative( wxCommandEvent& event ) override;
+  void Brightness( wxCommandEvent& event ) override;
 
   bool imgloaded = false;
   wxImage wxogimg;

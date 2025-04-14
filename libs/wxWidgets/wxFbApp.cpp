@@ -79,6 +79,26 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 	MosaicM = new wxMenuItem( FiltersMenu, wxID_ANY, wxString( wxT("Mosaic") ) , wxEmptyString, wxITEM_NORMAL );
 	FiltersMenu->Append( MosaicM );
 
+	ContrastM = new wxMenu();
+	wxMenuItem* ContrastMItem = new wxMenuItem( FiltersMenu, wxID_ANY, wxT("Contrast"), wxEmptyString, wxITEM_NORMAL, ContrastM );
+	wxMenuItem* ThresholdB;
+	ThresholdB = new wxMenuItem( ContrastM, wxID_ANY, wxString( wxT("Threshold") ) , wxEmptyString, wxITEM_NORMAL );
+	ContrastM->Append( ThresholdB );
+
+	wxMenuItem* HighCont;
+	HighCont = new wxMenuItem( ContrastM, wxID_ANY, wxString( wxT("High Contrast") ) , wxEmptyString, wxITEM_NORMAL );
+	ContrastM->Append( HighCont );
+
+	wxMenuItem* NegCont;
+	NegCont = new wxMenuItem( ContrastM, wxID_ANY, wxString( wxT("Negative (H. Cont. Inv.)") ) , wxEmptyString, wxITEM_NORMAL );
+	ContrastM->Append( NegCont );
+
+	FiltersMenu->Append( ContrastMItem );
+
+	wxMenuItem* Brightns;
+	Brightns = new wxMenuItem( FiltersMenu, wxID_ANY, wxString( wxT("Brightness") ) , wxEmptyString, wxITEM_NORMAL );
+	FiltersMenu->Append( Brightns );
+
 	MainMenubar->Append( FiltersMenu, wxT("Filters") );
 
 	this->SetMenuBar( MainMenubar );
@@ -159,6 +179,10 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 	GrayscaleM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::GrayscaleAverage ), this, GrayscaleAvg->GetId());
 	GrayscaleM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::GrayscalePerceptual ), this, GrayscalePercep->GetId());
 	FiltersMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::Mosaic ), this, MosaicM->GetId());
+	ContrastM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::Threshold ), this, ThresholdB->GetId());
+	ContrastM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::HighContrast ), this, HighCont->GetId());
+	ContrastM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::Negative ), this, NegCont->GetId());
+	FiltersMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::Brightness ), this, Brightns->GetId());
 }
 
 MainWindowV::~MainWindowV()

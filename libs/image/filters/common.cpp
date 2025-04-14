@@ -181,3 +181,57 @@ Image Image::mosaicc(int size)
   ni.mosaic(size);
   return ni;
 }
+
+void Image::threshold(int th, bool inv)
+{
+  byte c1 = 0xFF;
+  byte c2 = 0x00;
+  if (inv)
+  {
+    c1 = 0x00;
+    c2 = 0xFF;
+  }
+
+  for (int x = 0; x < w; x++)
+  {
+    for (int y = 0; y < h; y++)
+    {
+      byte g = grayaverage(gpx(x, y));
+      if (g >= th)
+      {
+        spx(x, y, c1, c1, c1, A(gpx(x, y)));
+      } else {
+        spx(x, y, c2, c2, c2, A(gpx(x, y)));
+      }
+    }
+  }
+}
+
+Image Image::thresholdc(int th, bool inv)
+{
+  Image ni = Image(*this);
+  ni.threshold(th, inv);
+  return ni;
+}
+
+void Image::brightness(int br)
+{
+  for (int x = 0; x < w; x++)
+  {
+    for (int y = 0; y < h; y++)
+    {
+      byte r = (byte)std::max(0, std::min(255, R(gpx(x,y)) + br));
+      byte g = (byte)std::max(0, std::min(255, G(gpx(x,y)) + br));
+      byte b = (byte)std::max(0, std::min(255, B(gpx(x,y)) + br));
+
+      spx(x, y, r, g, b, A(gpx(x, y)));
+    }
+  }
+}
+
+Image Image::brightnessc(int br)
+{
+  Image ni = Image(*this);
+  ni.brightness(br);
+  return ni;
+}

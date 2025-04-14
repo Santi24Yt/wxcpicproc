@@ -47,6 +47,7 @@ class MainWindowV : public wxFrame
 		wxMenu* WatermarksM;
 		wxMenu* ChannelsM;
 		wxMenu* GrayscaleM;
+		wxMenu* ContrastM;
 		wxStaticLine* m_staticline1;
 		wxPanel* LeftPanel;
 		wxStaticBitmap* OgImg;
@@ -67,6 +68,10 @@ class MainWindowV : public wxFrame
 		virtual void GrayscaleAverage( wxCommandEvent& event ) { event.Skip(); }
 		virtual void GrayscalePerceptual( wxCommandEvent& event ) { event.Skip(); }
 		virtual void Mosaic( wxCommandEvent& event ) { event.Skip(); }
+		virtual void Threshold( wxCommandEvent& event ) { event.Skip(); }
+		virtual void HighContrast( wxCommandEvent& event ) { event.Skip(); }
+		virtual void Negative( wxCommandEvent& event ) { event.Skip(); }
+		virtual void Brightness( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:
