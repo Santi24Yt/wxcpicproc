@@ -1,3 +1,27 @@
+# Usage
+
+`Open` file picker
+
+![usage1](resources/screenshots/usage1.png)
+
+`Browse` image in files an `Open Image`
+
+![usage2](resources/screenshots/usage2.png)
+
+Apply `Filters` to image
+
+*only one filter at a time can be applied (for now)*
+
+![usage3](resources/screenshots/usage3.png)
+
+`Save` image
+
+![usage4](resources/screenshots/usage4.png)
+
+`Browse` save directory and choose filename
+
+![alt text](resources/screenshots/usage5.png)
+
 # Compiling from source
 
 ## Dependencies
