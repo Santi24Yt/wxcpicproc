@@ -17,7 +17,7 @@ void MainWindow::ExitAll(wxCloseEvent& event)
 
 void MainWindow::OpenFileDialog(wxCommandEvent& event)
 {
-  FilePickerDialog* fdiag = new FilePickerDialog(NULL);
+  FilePickerDialog* fdiag = new FilePickerDialog();
   if (fdiag->ShowModal() == wxID_OK)
   {
     if (fdiag->validimg)
@@ -149,7 +149,7 @@ void MainWindow::ChannelRGBA( wxCommandEvent& event )
 {
   if (!imgloaded) return;
 
-  RGBPickerDialog* rgbdiag = new RGBPickerDialog(NULL);
+  RGBPickerDialog* rgbdiag = new RGBPickerDialog();
 
   if (rgbdiag->ShowModal() == wxID_OK)
   {

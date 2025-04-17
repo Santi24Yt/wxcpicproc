@@ -1,7 +1,7 @@
 #include "OneValuePickerSlider.h"
 
-OneValuePickerSlider::OneValuePickerSlider( std::string name, int min, int max, int def)
-  : OneValuePickerSliderV(NULL,wxID_ANY,wxT("Value"),wxDefaultPosition,wxSize( 250,275 ),wxDEFAULT_DIALOG_STYLE)
+OneValuePickerSlider::OneValuePickerSlider( std::string name, int min, int max, int def, wxWindow* parent)
+  : OneValuePickerSliderV(parent,wxID_ANY,wxT("Value"),wxDefaultPosition,wxSize( 250,275 ),wxDEFAULT_DIALOG_STYLE)
 {
   ValueSlider->SetRange(min, max);
   ValueSlider->SetValue(def);

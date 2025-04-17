@@ -6,8 +6,8 @@
 class MainWindow : public MainWindowV
 {
   public:
-  MainWindow(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("CPicProcwx"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1280,720 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL)
-  : MainWindowV(parent, id, title, pos, size, style)
+  MainWindow(wxWindow* parent = NULL )
+  : MainWindowV(parent,  wxID_ANY, wxT("CPicProcwx"), wxDefaultPosition, wxSize( 1280,720 ), wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL)
   {};
 
   void ExitAll(wxCloseEvent& event) override;
