@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <cstdint>
+#include <string>
+
 
 typedef unsigned char byte;
 typedef std::uint32_t pixel;
@@ -107,4 +109,6 @@ class Image
 
   void brightness(int br);
   Image brightnessc(int br);
+
+  std::string toTextHTML(int sx, int sy, int fs, char txt);
 };

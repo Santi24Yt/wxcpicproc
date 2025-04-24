@@ -1,4 +1,5 @@
 #include "../image.h"
+#include <string>
 #include <unordered_map>
 
 void Image::rmwatermarkpostcard()
@@ -100,4 +101,64 @@ Image Image::rmwatermarkpostcardc()
   Image ni = Image(*this);
   ni.rmwatermarkpostcard();
   return ni;
+}
+
+std::string Image::toTextHTML(int sx, int sy, int fs, char txt)
+{
+  if (txt == ' ' || txt == '\0') txt = '.';
+
+  std::string res = "<!DOCTYPE html>\n<title>wxcpicproc image to text</title>\n<style>body {font-family: monospace; line-height: 50%;}</style>";
+
+  for (int ym = 0; ym < h; ym += sy)
+  {
+    for (int xm = 0; xm < w; xm += sx)
+    {
+      long long sr = 0;
+      int nr = 0;
+      long long sg = 0;
+      int ng = 0;
+      long long sb = 0;
+      int nb = 0;
+      bool empty = true;
+
+      for (int x = xm; x < std::min(xm+sx, w); x++)
+      {
+        for (int y = ym; y < std::min(ym+sy, h); y++)
+        {
+          pixel px = gpx(x, y);
+          if (A(px) != 0)
+          {
+            empty = false;
+            sr += R(px);
+            nr++;
+            sg += G(px);
+            ng++;
+            sb += B(px);
+            nb++;
+          }
+        }
+      }
+
+      if (empty)
+      {
+        res.append("<font size=\""+std::to_string(fs)+"\" color=\"rgba(0, 0, 0, 0)\">&nbsp;</font>");
+      } else {
+        byte r = (byte)std::min((long long)255, sr/nr);
+        byte g = (byte)std::min((long long)255, sg/ng);
+        byte b = (byte)std::min((long long)255, sb/nb);
+        for (int x = xm; x < xm+sx; x++)
+        {
+          for (int y = ym; y < ym+sy; y++)
+          {
+            spx(x, y, r, g, b);
+          }
+        }
+
+        res.append("<font size=\""+std::to_string(fs)+"\" color=\"rgb("+std::to_string(r)+","+std::to_string(g)+","+std::to_string(b)+")\">"+txt+"</font>");
+      }
+    }
+    res.append("<br>\n");
+  }
+
+  return res;
 }
