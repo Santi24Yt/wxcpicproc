@@ -27,6 +27,11 @@ class MainWindow : public MainWindowV
   void HighContrast( wxCommandEvent& event ) override;
   void Negative( wxCommandEvent& event ) override;
   void Brightness( wxCommandEvent& event ) override;
+  void ToCharCust( wxCommandEvent& event ) override;
+  void ToCharM( wxCommandEvent& event ) override;
+  void ToCharAt( wxCommandEvent& event ) override;
+
+
 
   bool imgloaded = false;
   wxImage wxogimg;

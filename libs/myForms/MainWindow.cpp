@@ -1,5 +1,7 @@
 #include "MainWindow.h"
+#include "myForms/HTMLSaveDialog.h"
 #include "myForms/OneValuePickerSlider.h"
+#include "myForms/ToTextOptions.h"
 #include "wx/app.h"
 #include "FilePickerDialog.h"
 #include "FileSaveDialog.h"
@@ -219,6 +221,8 @@ void MainWindow::HighContrast( wxCommandEvent& event )
 {
   if (!imgloaded) return;
 
+  img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
+
   img.threshold(128);
 
   reloadModImg();
@@ -227,6 +231,8 @@ void MainWindow::HighContrast( wxCommandEvent& event )
 void MainWindow::Negative( wxCommandEvent& event )
 {
   if (!imgloaded) return;
+
+  img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
   
   img.threshold(128, true);
 
@@ -244,6 +250,108 @@ void MainWindow::Brightness( wxCommandEvent& event )
     img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
     
     img.brightness(valuepicker->value);
+  }
+
+  reloadModImg();
+}
+
+void MainWindow::ToCharCust( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
+
+  ToTextOptions* txtoptions = new ToTextOptions(2, std::max(2, img.w/10), 2, 2, std::max(2, img.h/10), 2);
+
+  if (txtoptions->ShowModal() == wxID_OK)
+  {
+    img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
+
+    std::string r = img.toTextHTML(
+                    txtoptions->XRegSizSlider->GetValue(), 
+                    txtoptions->YRegSizSlider->GetValue(),
+                    txtoptions->FontSizeSlider->GetValue(),
+                    txtoptions->CharIn->GetValue().c_str()[0]
+                    );
+
+    HTMLSaveDialog* savediag = new HTMLSaveDialog();
+
+    if (savediag->ShowModal() == wxID_OK)
+    {
+      wxFile file;
+      if (file.Create(savediag->path, true)) {
+          file.Write(r);
+          file.Close();
+      } else {
+        wxMessageBox("Failed to save file!", "Error", wxOK | wxICON_ERROR);
+      }
+    }
+  }
+
+  reloadModImg();
+}
+
+void MainWindow::ToCharM( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
+
+  ToTextOptions* txtoptions = new ToTextOptions(2, std::max(2, img.w/10), 2, 2, std::max(2, img.h/10), 2, 'M');
+
+  if (txtoptions->ShowModal() == wxID_OK)
+  {
+    img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
+
+    std::string r = img.toTextHTML(
+                    txtoptions->XRegSizSlider->GetValue(), 
+                    txtoptions->YRegSizSlider->GetValue(),
+                    txtoptions->FontSizeSlider->GetValue(),
+                    'M'
+                    );
+
+    HTMLSaveDialog* savediag = new HTMLSaveDialog();
+
+    if (savediag->ShowModal() == wxID_OK)
+    {
+      wxFile file;
+      if (file.Create(savediag->path, true)) {
+          file.Write(r);
+          file.Close();
+      } else {
+        wxMessageBox("Failed to save file!", "Error", wxOK | wxICON_ERROR);
+      }
+    }
+  }
+
+  reloadModImg();
+}
+
+void MainWindow::ToCharAt( wxCommandEvent& event )
+{
+  if (!imgloaded) return;
+
+  ToTextOptions* txtoptions = new ToTextOptions(2, std::max(2, img.w/10), 2, 2, std::max(2, img.h/10), 2, '@');
+
+  if (txtoptions->ShowModal() == wxID_OK)
+  {
+    img.setpxs(wxogimg.GetData(), wxogimg.GetAlpha());
+
+    std::string r = img.toTextHTML(
+                    txtoptions->XRegSizSlider->GetValue(), 
+                    txtoptions->YRegSizSlider->GetValue(),
+                    txtoptions->FontSizeSlider->GetValue(),
+                    '@'
+                    );
+
+    HTMLSaveDialog* savediag = new HTMLSaveDialog();
+
+    if (savediag->ShowModal() == wxID_OK)
+    {
+      wxFile file;
+      if (file.Create(savediag->path, true)) {
+          file.Write(r);
+          file.Close();
+      } else {
+        wxMessageBox("Failed to save file!", "Error", wxOK | wxICON_ERROR);
+      }
+    }
   }
 
   reloadModImg();
