@@ -10,12 +10,16 @@ Código fuente: [GitHub](https://github.com/Santi24Yt/wxcpicproc)
 
 - Componente RGB (mica)
 
+Filters > Channels > RGB
+
 [Función](https://github.com/Santi24Yt/wxcpicproc/blob/15cdf6e72c51f5620ae3a33739d39366522fa616/libs/image/filters/common.cpp#L79)
 
 ![micargb1](resources/screenshots/micargb1.png)
 ![micargb2](resources/screenshots/micargb2.png)
 
 - Mosaico
+
+Filters > Mosaic
 
 [Función](https://github.com/Santi24Yt/wxcpicproc/blob/15cdf6e72c51f5620ae3a33739d39366522fa616/libs/image/filters/common.cpp#L138)
 
@@ -25,11 +29,15 @@ Código fuente: [GitHub](https://github.com/Santi24Yt/wxcpicproc)
 - Color a tono de gris
   - `(R+G+B)/3`
 
+    Filters > Grayscale > Average
+
   [Función](https://github.com/Santi24Yt/wxcpicproc/blob/15cdf6e72c51f5620ae3a33739d39366522fa616/libs/image/filters/common.cpp#L98)
 
   ![grayavg](resources/screenshots/grayavg.png)
 
   - `R*0.299 + G*0.587 + B*0.114` [valores LUMA](https://en.wikipedia.org/wiki/Grayscale#Luma_coding_in_video_systems)
+
+    Filters > Grayscale > Perceptual
 
   [Función](https://github.com/Santi24Yt/wxcpicproc/blob/15cdf6e72c51f5620ae3a33739d39366522fa616/libs/image/filters/common.cpp#L118)
 
@@ -41,17 +49,24 @@ Comparación (bajón de calidad por compresión de gif)
 
 - Alto contraste
 
+Filters > Contrast > High Contrast
+
 [Función](https://github.com/Santi24Yt/wxcpicproc/blob/15cdf6e72c51f5620ae3a33739d39366522fa616/libs/image/filters/common.cpp#L193)  con valor `128` (mitad)
 
 ![hcontr](resources/screenshots/hcontr.png)
 
 - Inverso del Alto contraste (negativo)
 
+Filters > Contrast > Negative
+
 *Misma función pero con la opción de invertido activada*
 
 ![neg](resources/screenshots/neg.png)
 
 - Rojo, Verde, Azul, Alpha (extra)
+
+Filters > Channels > Red/Green/Blue/Alpha
+
   - Rojo
 
   [Función](https://github.com/Santi24Yt/wxcpicproc/blob/15cdf6e72c51f5620ae3a33739d39366522fa616/libs/image/filters/common.cpp#L3)
@@ -77,6 +92,8 @@ Comparación (bajón de calidad por compresión de gif)
   ![alphac](resources/screenshots/alphac.png)
 
 - Brillo (sumar/restar)
+
+Filters > Brightness
 
 [Función](https://github.com/Santi24Yt/wxcpicproc/blob/15cdf6e72c51f5620ae3a33739d39366522fa616/libs/image/filters/common.cpp#L226)
 
