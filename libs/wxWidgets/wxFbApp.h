@@ -31,6 +31,7 @@
 #include <wx/slider.h>
 #include <wx/textctrl.h>
 #include <wx/hyperlink.h>
+#include <wx/checkbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -250,6 +251,7 @@ class ToTextOptionsV : public wxDialog
 		wxSlider* FontSizeSlider;
 		wxSlider* XRegSizSlider;
 		wxSlider* YRegSizSlider;
+		wxCheckBox* GrayscaleCheck;
 
 		ToTextOptionsV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Text Options"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
 

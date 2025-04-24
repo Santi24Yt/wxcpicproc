@@ -522,6 +522,9 @@ ToTextOptionsV::ToTextOptionsV( wxWindow* parent, wxWindowID id, const wxString&
 
 	fgSizer2->Add( HSizer31, 1, 0, 5 );
 
+	GrayscaleCheck = new wxCheckBox( this, wxID_ANY, wxT("Grayscale:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	fgSizer2->Add( GrayscaleCheck, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+
 
 	fgSizer2->Add( 0, 20, 1, 0, 5 );
 

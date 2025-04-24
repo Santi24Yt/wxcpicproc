@@ -103,7 +103,7 @@ Image Image::rmwatermarkpostcardc()
   return ni;
 }
 
-std::string Image::toTextHTML(int sx, int sy, int fs, char txt)
+std::string Image::toTextHTML(int sx, int sy, int fs, char txt, bool gr)
 {
   if (txt == ' ' || txt == '\0') txt = '.';
 
@@ -151,6 +151,14 @@ std::string Image::toTextHTML(int sx, int sy, int fs, char txt)
           for (int y = ym; y < ym+sy; y++)
           {
             spx(x, y, r, g, b);
+            if (gr)
+            {
+              byte grc = grayaverage(gpx(x,y));
+              spx(x,y,grc,grc,grc);
+              r = grc;
+              g = grc;
+              b = grc;
+            }
           }
         }
 

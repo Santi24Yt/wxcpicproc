@@ -269,7 +269,8 @@ void MainWindow::ToCharCust( wxCommandEvent& event )
                     txtoptions->XRegSizSlider->GetValue(), 
                     txtoptions->YRegSizSlider->GetValue(),
                     txtoptions->FontSizeSlider->GetValue(),
-                    txtoptions->CharIn->GetValue().c_str()[0]
+                    txtoptions->CharIn->GetValue().c_str()[0],
+                    txtoptions->GrayscaleCheck->IsChecked()
                     );
 
     HTMLSaveDialog* savediag = new HTMLSaveDialog();
@@ -303,7 +304,8 @@ void MainWindow::ToCharM( wxCommandEvent& event )
                     txtoptions->XRegSizSlider->GetValue(), 
                     txtoptions->YRegSizSlider->GetValue(),
                     txtoptions->FontSizeSlider->GetValue(),
-                    'M'
+                    'M',
+                    txtoptions->GrayscaleCheck->IsChecked()
                     );
 
     HTMLSaveDialog* savediag = new HTMLSaveDialog();
@@ -337,7 +339,8 @@ void MainWindow::ToCharAt( wxCommandEvent& event )
                     txtoptions->XRegSizSlider->GetValue(), 
                     txtoptions->YRegSizSlider->GetValue(),
                     txtoptions->FontSizeSlider->GetValue(),
-                    '@'
+                    '@',
+                    txtoptions->GrayscaleCheck->IsChecked()
                     );
 
     HTMLSaveDialog* savediag = new HTMLSaveDialog();
