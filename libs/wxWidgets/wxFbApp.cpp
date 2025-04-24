@@ -101,6 +101,25 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 
 	MainMenubar->Append( FiltersMenu, wxT("Filters") );
 
+	TextMenu = new wxMenu();
+	CharactersMenu = new wxMenu();
+	wxMenuItem* CharactersMenuItem = new wxMenuItem( TextMenu, wxID_ANY, wxT("Characters"), wxEmptyString, wxITEM_NORMAL, CharactersMenu );
+	wxMenuItem* TextCharCust;
+	TextCharCust = new wxMenuItem( CharactersMenu, wxID_ANY, wxString( wxT("Custom") ) , wxEmptyString, wxITEM_NORMAL );
+	CharactersMenu->Append( TextCharCust );
+
+	wxMenuItem* TextCharM;
+	TextCharM = new wxMenuItem( CharactersMenu, wxID_ANY, wxString( wxT("M") ) , wxEmptyString, wxITEM_NORMAL );
+	CharactersMenu->Append( TextCharM );
+
+	wxMenuItem* TextCharAt;
+	TextCharAt = new wxMenuItem( CharactersMenu, wxID_ANY, wxString( wxT("@") ) , wxEmptyString, wxITEM_NORMAL );
+	CharactersMenu->Append( TextCharAt );
+
+	TextMenu->Append( CharactersMenuItem );
+
+	MainMenubar->Append( TextMenu, wxT("Text") );
+
 	this->SetMenuBar( MainMenubar );
 
 	wxBoxSizer* MainBSizer;
@@ -183,6 +202,9 @@ MainWindowV::MainWindowV( wxWindow* parent, wxWindowID id, const wxString& title
 	ContrastM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::HighContrast ), this, HighCont->GetId());
 	ContrastM->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::Negative ), this, NegCont->GetId());
 	FiltersMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::Brightness ), this, Brightns->GetId());
+	CharactersMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::ToCharCust ), this, TextCharCust->GetId());
+	CharactersMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::ToCharM ), this, TextCharM->GetId());
+	CharactersMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainWindowV::ToCharAt ), this, TextCharAt->GetId());
 }
 
 MainWindowV::~MainWindowV()
@@ -340,5 +362,186 @@ OneValuePickerSliderV::OneValuePickerSliderV( wxWindow* parent, wxWindowID id, c
 }
 
 OneValuePickerSliderV::~OneValuePickerSliderV()
+{
+}
+
+LinkDialogV::LinkDialogV( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxSize( 400,200 ), wxDefaultSize );
+
+	wxBoxSizer* HSizer;
+	HSizer = new wxBoxSizer( wxHORIZONTAL );
+
+	wxBoxSizer* VSizer;
+	VSizer = new wxBoxSizer( wxVERTICAL );
+
+	HyperLink = new wxHyperlinkCtrl( this, wxID_ANY, wxT("Click to open file"), wxT("http://www.wxformbuilder.org"), wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE );
+	HyperLink->SetFont( wxFont( 32, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxEmptyString ) );
+	HyperLink->SetMinSize( wxSize( -1,100 ) );
+
+	VSizer->Add( HyperLink, 0, wxEXPAND, 5 );
+
+	Note = new wxStaticText( this, wxID_ANY, wxT("If it doesn't work you can open the file manually from the folder where the program is located"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL );
+	Note->Wrap( 350 );
+	Note->SetMinSize( wxSize( 350,-1 ) );
+	Note->SetMaxSize( wxSize( 400,-1 ) );
+
+	VSizer->Add( Note, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+
+
+	HSizer->Add( VSizer, 1, wxALIGN_CENTER_VERTICAL, 5 );
+
+
+	this->SetSizer( HSizer );
+	this->Layout();
+	HSizer->Fit( this );
+
+	this->Centre( wxBOTH );
+}
+
+LinkDialogV::~LinkDialogV()
+{
+}
+
+HTMLSaveDialogV::HTMLSaveDialogV( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxSize( -1,-1 ), wxSize( -1,-1 ) );
+
+	wxBoxSizer* HSizer;
+	HSizer = new wxBoxSizer( wxHORIZONTAL );
+
+	wxBoxSizer* VSizer;
+	VSizer = new wxBoxSizer( wxVERTICAL );
+
+	fileSaver = new wxFilePickerCtrl( this, wxID_ANY, wxEmptyString, wxT("Save file"), wxT("HTML files (*.html;*.htm)|*.html;*.htm"), wxDefaultPosition, wxDefaultSize, wxFLP_OVERWRITE_PROMPT|wxFLP_SAVE|wxFLP_USE_TEXTCTRL );
+	VSizer->Add( fileSaver, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+
+
+	HSizer->Add( VSizer, 1, 0, 5 );
+
+
+	this->SetSizer( HSizer );
+	this->Layout();
+	HSizer->Fit( this );
+
+	this->Centre( wxBOTH );
+
+	// Connect Events
+	fileSaver->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( HTMLSaveDialogV::SaveFile ), NULL, this );
+}
+
+HTMLSaveDialogV::~HTMLSaveDialogV()
+{
+}
+
+ToTextOptionsV::ToTextOptionsV( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxSize( 200,200 ), wxDefaultSize );
+
+	wxBoxSizer* HSizer;
+	HSizer = new wxBoxSizer( wxHORIZONTAL );
+
+	wxFlexGridSizer* fgSizer2;
+	fgSizer2 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	fgSizer2->SetFlexibleDirection( wxBOTH );
+	fgSizer2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+	wxBoxSizer* HSizer21;
+	HSizer21 = new wxBoxSizer( wxHORIZONTAL );
+
+	CharSelectTxt = new wxStaticText( this, wxID_ANY, wxT("Character:"), wxDefaultPosition, wxDefaultSize, 0 );
+	CharSelectTxt->Wrap( -1 );
+	HSizer21->Add( CharSelectTxt, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+
+	CharIn = new wxTextCtrl( this, wxID_ANY, wxT("."), wxDefaultPosition, wxDefaultSize, 0 );
+	#ifdef __WXGTK__
+	if ( !CharIn->HasFlag( wxTE_MULTILINE ) )
+	{
+	CharIn->SetMaxLength( 1 );
+	}
+	#else
+	CharIn->SetMaxLength( 1 );
+	#endif
+	HSizer21->Add( CharIn, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+
+
+	fgSizer2->Add( HSizer21, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
+
+	wxBoxSizer* HSizer31;
+	HSizer31 = new wxBoxSizer( wxHORIZONTAL );
+
+	SizesTxt = new wxStaticText( this, wxID_ANY, wxT("Sizes:"), wxDefaultPosition, wxDefaultSize, 0 );
+	SizesTxt->Wrap( -1 );
+	HSizer31->Add( SizesTxt, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+
+	wxBoxSizer* VSizer21;
+	VSizer21 = new wxBoxSizer( wxVERTICAL );
+
+	wxBoxSizer* HSizer41;
+	HSizer41 = new wxBoxSizer( wxHORIZONTAL );
+
+	FontSizeTxt = new wxStaticText( this, wxID_ANY, wxT("Font Size:"), wxDefaultPosition, wxDefaultSize, 0 );
+	FontSizeTxt->Wrap( -1 );
+	HSizer41->Add( FontSizeTxt, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+
+	FontSizeSlider = new wxSlider( this, wxID_ANY, 1, 1, 64, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL|wxSL_VALUE_LABEL );
+	HSizer41->Add( FontSizeSlider, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
+
+
+	VSizer21->Add( HSizer41, 1, wxALIGN_CENTER_HORIZONTAL, 5 );
+
+	wxBoxSizer* HSizer51;
+	HSizer51 = new wxBoxSizer( wxHORIZONTAL );
+
+	XRegSizTxt = new wxStaticText( this, wxID_ANY, wxT("X Region Size:"), wxDefaultPosition, wxDefaultSize, 0 );
+	XRegSizTxt->Wrap( -1 );
+	HSizer51->Add( XRegSizTxt, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+
+	XRegSizSlider = new wxSlider( this, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL|wxSL_VALUE_LABEL );
+	HSizer51->Add( XRegSizSlider, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
+
+
+	VSizer21->Add( HSizer51, 1, wxALIGN_CENTER_HORIZONTAL, 5 );
+
+	wxBoxSizer* HSizer61;
+	HSizer61 = new wxBoxSizer( wxHORIZONTAL );
+
+	YRegSizTxt = new wxStaticText( this, wxID_ANY, wxT("Y Region Size:"), wxDefaultPosition, wxDefaultSize, 0 );
+	YRegSizTxt->Wrap( -1 );
+	HSizer61->Add( YRegSizTxt, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+
+	YRegSizSlider = new wxSlider( this, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL|wxSL_VALUE_LABEL );
+	HSizer61->Add( YRegSizSlider, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
+
+
+	VSizer21->Add( HSizer61, 1, wxALIGN_CENTER_HORIZONTAL, 5 );
+
+
+	HSizer31->Add( VSizer21, 1, 0, 5 );
+
+
+	fgSizer2->Add( HSizer31, 1, 0, 5 );
+
+
+	fgSizer2->Add( 0, 20, 1, 0, 5 );
+
+	TextOptionsB = new wxButton( this, wxID_ANY, wxT("Ok"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer2->Add( TextOptionsB, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+
+
+	HSizer->Add( fgSizer2, 1, wxALIGN_CENTER_VERTICAL, 5 );
+
+
+	this->SetSizer( HSizer );
+	this->Layout();
+	HSizer->Fit( this );
+
+	this->Centre( wxBOTH );
+
+	// Connect Events
+	TextOptionsB->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ToTextOptionsV::TextOptionsSelect ), NULL, this );
+}
+
+ToTextOptionsV::~ToTextOptionsV()
 {
 }

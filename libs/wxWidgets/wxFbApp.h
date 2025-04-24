@@ -30,6 +30,7 @@
 #include <wx/clrpicker.h>
 #include <wx/slider.h>
 #include <wx/textctrl.h>
+#include <wx/hyperlink.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -48,6 +49,8 @@ class MainWindowV : public wxFrame
 		wxMenu* ChannelsM;
 		wxMenu* GrayscaleM;
 		wxMenu* ContrastM;
+		wxMenu* TextMenu;
+		wxMenu* CharactersMenu;
 		wxStaticLine* m_staticline1;
 		wxPanel* LeftPanel;
 		wxStaticBitmap* OgImg;
@@ -72,6 +75,9 @@ class MainWindowV : public wxFrame
 		virtual void HighContrast( wxCommandEvent& event ) { event.Skip(); }
 		virtual void Negative( wxCommandEvent& event ) { event.Skip(); }
 		virtual void Brightness( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ToCharCust( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ToCharM( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ToCharAt( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:
@@ -176,6 +182,78 @@ class OneValuePickerSliderV : public wxDialog
 		OneValuePickerSliderV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Value"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 250,275 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 		~OneValuePickerSliderV();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LinkDialogV
+///////////////////////////////////////////////////////////////////////////////
+class LinkDialogV : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* Note;
+
+	public:
+		wxHyperlinkCtrl* HyperLink;
+
+		LinkDialogV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("View File"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
+		~LinkDialogV();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class HTMLSaveDialogV
+///////////////////////////////////////////////////////////////////////////////
+class HTMLSaveDialogV : public wxDialog
+{
+	private:
+
+	protected:
+		wxFilePickerCtrl* fileSaver;
+
+		// Virtual event handlers, override them in your derived class
+		virtual void SaveFile( wxFileDirPickerEvent& event ) { event.Skip(); }
+
+
+	public:
+
+		HTMLSaveDialogV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Save"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_DIALOG_STYLE );
+
+		~HTMLSaveDialogV();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class ToTextOptionsV
+///////////////////////////////////////////////////////////////////////////////
+class ToTextOptionsV : public wxDialog
+{
+	private:
+
+	protected:
+		wxStaticText* CharSelectTxt;
+		wxStaticText* SizesTxt;
+		wxStaticText* FontSizeTxt;
+		wxStaticText* XRegSizTxt;
+		wxStaticText* YRegSizTxt;
+		wxButton* TextOptionsB;
+
+		// Virtual event handlers, override them in your derived class
+		virtual void TextOptionsSelect( wxCommandEvent& event ) { event.Skip(); }
+
+
+	public:
+		wxTextCtrl* CharIn;
+		wxSlider* FontSizeSlider;
+		wxSlider* XRegSizSlider;
+		wxSlider* YRegSizSlider;
+
+		ToTextOptionsV( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Text Options"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
+		~ToTextOptionsV();
 
 };
 
